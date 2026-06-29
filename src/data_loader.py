@@ -137,7 +137,7 @@ def load_and_split_raw_data(
         images_array = np.array(category_images).reshape(-1, 28, 28, 1).astype("float32") / 255.0
         labels_array = np.full((images_array.shape[0], 1), idx)
 
-        logging.info(f"{len(images_array)} clean samples extracted for category: {class_list}")
+        logging.info(f"{len(images_array)} clean samples extracted for category: {class_name}")
         X_list.append(images_array)
         y_list.append(labels_array)
 
