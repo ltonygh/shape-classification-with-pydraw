@@ -76,13 +76,13 @@ def run_tuning_pipeline():
         Validation loss is monitored, and the sest that yields the least is deemed the most optimized.
     """
     dir = "data/raw_data"
-    class_list = ["circle", "square", "triangle", "star"]
+    class_list = ["circle", "square", "star", "triangle"]
     class_count = len(class_list)
 
     X_train, y_train, X_val, y_val, X_test, y_test, label_map = load_and_split_raw_data(
         data_dir = dir,
         class_list = class_list,
-        count_per_class=5000,
+        count_per_class=10000,
         train_validate_test_ratio=(0.7, 0.1, 0.2)
     )
 
