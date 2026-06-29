@@ -38,12 +38,12 @@ class TuneHyperModel(kt.HyperModel):
         hp_conv_kernel = hp.Int("Kernel size in Conv2D layer", min_value = 3, max_value = 7, step = 2)
 
         hp_dropout = hp.Boolean("Use Dropout layer")
-        hp_dropout_rate = hp.Float('Dropout rate', min_value = 0.1, max_value = 0.5, step = 0.05)
+        hp_dropout_rate = hp.Float('Dropout rate', min_value = 0.1, max_value = 0.5, step = 0.05) if hp_dropout else 0.0
 
         hp_final_dense_neuron = hp.Int("Number of neurons in the final dense layer (2^n)", min_value = 3, max_value = 7, step = 1)
     
         model = build_model(
-            class_count = self.num_classes,
+            class_count = self.class_count,
             input_height = 28,
             input_width = 28,
             input_channel = 1,
@@ -76,12 +76,12 @@ def run_tuning_pipeline():
         Validation loss is monitored, and the sest that yields the least is deemed the most optimized.
     """
     dir = "data/raw_data"
-    class_type = ["circle", "square", "triangle", "star"]
-    class_count = len(class_type)
+    class_list = ["circle", "square", "triangle", "star"]
+    class_count = len(class_list)
 
     X_train, y_train, X_val, y_val, X_test, y_test, label_map = load_and_split_raw_data(
         data_dir = dir,
-        class_list = class_type,
+        class_list = class_list,
         count_per_class=5000,
         train_validate_test_ratio=(0.7, 0.1, 0.2)
     )
