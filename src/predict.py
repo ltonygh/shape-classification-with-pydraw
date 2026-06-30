@@ -57,7 +57,7 @@ def predict_drawing(strokes: list) -> tuple:
     best_match_idx = int(np.argmax(predict))
     confidence_score = float(predict[best_match_idx]) * 100.0
 
-    if confidence_score < 95.0:
+    if confidence_score < 90.0:
         return "Unknown", confidence_score
         
     predicted_shape = labels.get(best_match_idx, "Unknown")
