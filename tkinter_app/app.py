@@ -77,11 +77,19 @@ def execute_ui_prediction():
 
     logging.info("Predicting drawn shape...")
     
-    predicted_label, confidence = predict_drawing(all_strokes)
+    predicted_label, confidence, all_prediction = predict_drawing(all_strokes)
     
     result_text_var.set(f"Prediction: {predicted_label.capitalize()}")
     confidence_text_var.set(f"Certainty: {confidence:.2f}%")
-    
+
+    chart_output_lines = []
+    for label_name, score in all_prediction:
+        bar_blocks_count = int(score // 5)
+        bar_fill = "█" * bar_blocks_count
+
+        chart_output_lines.append(f"{label_name.capitalize():<10} | {bar_fill:<20} {score:>6.1f}%")
+    chart_text_var.set("\n".join(chart_output_lines))
+
     print(f"Terminal Log -> Guess: {predicted_label} | Accuracy Probability: {confidence:.4f}%")
 
 def execute_canvas_clear():
@@ -101,6 +109,7 @@ def execute_canvas_clear():
 
     result_text_var.set("Prediction: None")
     confidence_text_var.set("Certainty: 0.00%")
+    chart_text_var.set("")
     logging.info("Canvas reset.")
 
 
@@ -123,11 +132,14 @@ canvas.bind("<ButtonRelease-1>", on_release)
 
 result_text_var = tk.StringVar(value="Prediction: None")
 confidence_text_var = tk.StringVar(value="Certainty: 0.00%")
+chart_text_var = tk.StringVar(value="")
 
 label_result = tk.Label(root, textvariable=result_text_var, font=("Helvetica", 12, "bold"))
 label_result.pack()
 label_confidence = tk.Label(root, textvariable=confidence_text_var, font=("Helvetica", 10))
 label_confidence.pack(pady=2)
+label_chart = tk.Label(root, textvariable=chart_text_var, font=("Courier", 10), justify=tk.LEFT, anchor=tk.W)
+label_chart.pack(pady=10, fill=tk.X, padx=20)
 
 
 

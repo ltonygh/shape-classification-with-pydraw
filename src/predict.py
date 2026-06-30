@@ -57,8 +57,14 @@ def predict_drawing(strokes: list) -> tuple:
     best_match_idx = int(np.argmax(predict))
     confidence_score = float(predict[best_match_idx]) * 100.0
 
+    all_prediction = []
+    for idx, percentage in enumerate(predict):
+        label_name = labels.get(idx, "Unknown")
+        all_prediction.append((label_name, float(percentage) * 100.0))
+    all_prediction.sort(key=lambda item: item[1], reverse=True)
+
     if confidence_score < 90.0:
-        return "Unknown", confidence_score
+        return "Unknown", confidence_score, all_prediction
         
     predicted_shape = labels.get(best_match_idx, "Unknown")
-    return predicted_shape, confidence_score
+    return predicted_shape, confidence_score, all_prediction
