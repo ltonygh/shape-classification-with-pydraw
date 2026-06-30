@@ -85,7 +85,6 @@ def build_model(
             filters = 2 ** (conv_filter + i), 
             kernel_size = conv_kernel, 
             activation = "relu",
-            padding = "same"
         ))
 
         if use_batch_normalization:

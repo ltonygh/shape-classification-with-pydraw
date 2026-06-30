@@ -39,7 +39,7 @@ class TuneHyperModel(kt.HyperModel):
         hp_dropout = hp.Boolean("Use Dropout layer")
         hp_dropout_rate = hp.Float('Dropout rate', min_value = 0.1, max_value = 0.5, step = 0.05) if hp_dropout else 0.0
 
-        hp_final_dense_neuron = hp.Int("Number of neurons in the final dense layer (2^n)", min_value = 4, max_value = 7, step = 1)
+        hp_final_dense_neuron = hp.Int("Number of neurons in the final dense layer (2^n)", min_value = 4, max_value = 8, step = 1)
     
         model = build_model(
             class_count = self.class_count,
