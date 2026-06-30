@@ -25,7 +25,6 @@ class TuneHyperModel(kt.HyperModel):
                 - NOTE: For more than two Conv2D set, each layer past the first will increase the exponent by 1
             - Size of kernel in the Conv2D layers (3 ~ 7, 2 per step)
             
-            - Use of augmentation layer set before the Conv2D blocks
             - Use of batch normalization layer in every Conv2D block
             - Use of dropout layer in every Conv2D block
                 - If yes, the dropout rate of every dropout layer (0.1 ~ 0.5, 0.05 per step)
@@ -33,21 +32,21 @@ class TuneHyperModel(kt.HyperModel):
 
             - Number of neurons in the final dense layer (3 ~ 7, 2^n per step)
         """
-        hp_conv_set = hp.Int("Number of Conv2D set", min_value = 1, max_value = 6, step = 1)
-        hp_conv_filter = hp.Int("Number of filters in Conv2D layer (2^n)", min_value = 1, max_value = 4, step = 1)
-        hp_conv_kernel = hp.Int("Kernel size in Conv2D layer", min_value = 3, max_value = 7, step = 2)
+        hp_conv_set = hp.Int("Number of Conv2D set", min_value = 1, max_value = 4, step = 1)
+        hp_conv_filter = hp.Int("Number of filters in Conv2D layer (2^n)", min_value = 3, max_value = 7, step = 1)
+        hp_conv_kernel = hp.Int("Kernel size in Conv2D layer", min_value = 3, max_value = 5, step = 2)
 
         hp_dropout = hp.Boolean("Use Dropout layer")
         hp_dropout_rate = hp.Float('Dropout rate', min_value = 0.1, max_value = 0.5, step = 0.05) if hp_dropout else 0.0
 
-        hp_final_dense_neuron = hp.Int("Number of neurons in the final dense layer (2^n)", min_value = 3, max_value = 7, step = 1)
+        hp_final_dense_neuron = hp.Int("Number of neurons in the final dense layer (2^n)", min_value = 4, max_value = 7, step = 1)
     
         model = build_model(
             class_count = self.class_count,
             input_height = 28,
             input_width = 28,
             input_channel = 1,
-            use_augmentation = hp.Boolean('Use augmentation layer set'),
+            use_augmentation = True,
             conv_set = hp_conv_set,
             conv_filter = hp_conv_filter,
             conv_kernel = hp_conv_kernel,

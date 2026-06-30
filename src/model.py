@@ -77,14 +77,15 @@ def build_model(
     model.add(layers.Input(shape = (input_height, input_width, input_channel)))
     
     if use_augmentation:
-        model.add(RandomFlip("horizontal_and_vertical"))
+        model.add(RandomFlip("horizontal"))
         model.add(RandomRotation(0.2))
     
     for i in range(conv_set):
         model.add(Conv2D(
             filters = 2 ** (conv_filter + i), 
             kernel_size = conv_kernel, 
-            activation = "relu"
+            activation = "relu",
+            padding = "same"
         ))
 
         if use_batch_normalization:
