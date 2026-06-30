@@ -9,4 +9,3 @@ data/
 
 # Local KerasTuner report logs and models
 models/tuning_logs/
-*.keras
