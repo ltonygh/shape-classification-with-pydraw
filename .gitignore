@@ -7,5 +7,6 @@ __pycache__/
 data/
 *.ndjson
 
-# Local KerasTuner report logs
+# Local KerasTuner report logs and models
 models/tuning_logs/
+*.keras
